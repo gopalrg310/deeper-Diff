@@ -3,7 +3,14 @@ package jsondiff
 import (
 	"reflect"
 )
+// This fucntion will be used to find the deeper diff which is similar like http://www.jsondiff.com/
 
+/*input
+types -  Whether it needs to be bool or string of exact difference
+Exact - compare content of orginal
+comparitive - compare content of comparitive
+Changes - Use this as initial false that used internally 
+*/
 func GetDiffJSONValue(types string, Exact interface{}, comparitive interface{}, Changes bool) (bool, interface{}, interface{}, error) {
 	var data1, data2 interface{}
 	exactduplicate := make(map[string]interface{})
@@ -143,11 +150,11 @@ func GetDiffOutput(types string, old, new interface{}) (interface{}, interface{}
 		return new, old
 	}
 }
-
+//Function will prove the key whch got modified as tru or false
 func GetjsonDiffInBool(Exact, comparative interface{}) (bool, interface{}, interface{}, error) {
 	return GetDiffJSON("bool", Exact, comparative)
 }
-
+//Function will exactly show that what value got changed
 func GetjsonDiffInValue(Exact, comparative interface{}) (bool, interface{}, interface{}, error) {
 	return GetDiffJSON("value", Exact, comparative)
 }
