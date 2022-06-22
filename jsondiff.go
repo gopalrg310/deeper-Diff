@@ -1,4 +1,4 @@
-package jsondiff
+package main
 
 import (
 	"reflect"
