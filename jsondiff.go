@@ -2,6 +2,9 @@ package main
 
 import (
 	"reflect"
+	"io/ioutil"
+	"fmt"
+	"encoding/json"
 )
 // This fucntion will be used to find the deeper diff which is similar like http://www.jsondiff.com/
 
@@ -172,7 +175,19 @@ func main(){
 		fmt.Println(err.Error())
 		return
 	}
-	diff,old,new1,err:=GetjsonDiffInBool(string(file1),string(file2))
+	value10,value20:= make([]interface{},0),make([]interface{},0)
+	json.Unmarshal(file1,&value10)
+	json.Unmarshal(file2,&value20)
+	diff,old,new1,err:=GetjsonDiffInBool(value10,value20)
+	if err!=nil{
+		fmt.Println(err.Error())
+		return
+	}
+	if diff{
+		fmt.Println(old)
+        //[map[id:true type:true] map[id:true type:true]]		
+	}
+	diff,old,new1,err=GetjsonDiffInValue(value10,value20)
 	if err!=nil{
 		fmt.Println(err.Error())
 		return
@@ -180,16 +195,10 @@ func main(){
 	if diff{
 		fmt.Println(old)
 		fmt.Println(new1)
-		
-	}
-	diff,old,new1,err=GetjsonDiffInValue(string(file1),string(file2))
-	if err!=nil{
-		fmt.Println(err.Error())
-		return
-	}
-	if diff{
-		fmt.Println(old)
-		fmt.Println(new1)
+		/*
+			[map[id:2489651046 type:CreatedEvent] map[id:2489651052 type:PushedEvent]]
+			[map[id:2489651045 type:CreateEvent] map[id:2489651051 type:PushEvent]]
+		*/
 		
 	}
 }
