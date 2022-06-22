@@ -158,3 +158,38 @@ func GetjsonDiffInBool(Exact, comparative interface{}) (bool, interface{}, inter
 func GetjsonDiffInValue(Exact, comparative interface{}) (bool, interface{}, interface{}, error) {
 	return GetDiffJSON("value", Exact, comparative)
 }
+
+func main(){
+	filename1:="json1.json"
+	filename2:="json2.json"
+	file1,err:=ioutil.ReadFile(filename1)
+	if err!=nil{
+		fmt.Println(err.Error())
+		return
+	}
+	file2,err:=ioutil.ReadFile(filename2)
+	if err!=nil{
+		fmt.Println(err.Error())
+		return
+	}
+	diff,old,new1,err:=GetjsonDiffInBool(string(file1),string(file2))
+	if err!=nil{
+		fmt.Println(err.Error())
+		return
+	}
+	if diff{
+		fmt.Println(old)
+		fmt.Println(new1)
+		
+	}
+	diff,old,new1,err=GetjsonDiffInValue(string(file1),string(file2))
+	if err!=nil{
+		fmt.Println(err.Error())
+		return
+	}
+	if diff{
+		fmt.Println(old)
+		fmt.Println(new1)
+		
+	}
+}
