@@ -13,6 +13,8 @@ When there is a comparison between two different json which can be even million 
 
 Access it by `go get github.com/gopalrg310`
 
+Run test cases
+`go test -v`
 And do 
 `go build`
 
