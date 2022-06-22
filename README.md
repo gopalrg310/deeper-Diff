@@ -7,3 +7,7 @@ Try GetjsonDiffInBool with two comparable json
 
 # To Find the Json diff in Value
 Try GetjsonDiffInValue with two comparable json
+
+
+When there is a comparison between two different json which can be even million line this fuction will give you the exact difference
+
