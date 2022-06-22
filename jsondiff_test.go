@@ -65,16 +65,22 @@ const(
 		value: "#000"
 	}
 ]`
+)
 
 func Test_Jsondiff(t *testing.T){
-  got, err := interpret_bf(helloworld, "")
-	want := "Hello World!\n"
+  	got, old, newval, err := GetDiffJSONValue("bool",content1, content2, false)
+	want :=true
 	if got != want {
 		t.Errorf("got %q, wanted %q and found error %q", got, want, err)
 	}
-	got, err = interpret_bf(WorldLine, "")
-	want = "WorldLine Ingenico"
+	if !strings.Contains(fmt.Sprint(old),"true"){
+		t.Errorf("got %q, wanted %q and found error %q", got, want, err)
+	}
+	got, old, newval, err = GetDiffJSONValue("string",content1, content2, false)
 	if got != want {
+		t.Errorf("got %q, wanted %q and found error %q", got, want, err)
+	}
+	if !strings.Contains(fmt.Sprint(old),"cyan") || !strings.Contains(fmt.Sprint(newval),"violet") {
 		t.Errorf("got %q, wanted %q and found error %q", got, want, err)
 	}
 }
