@@ -11,7 +11,7 @@ Try GetjsonDiffInValue with two comparable json
 
 When there is a comparison between two different json which can be even million line this fuction will give you the exact difference
 
-Access it by `go get github.com/gopalrg310`
+Access it by `go get github.com/gopalrg310/json-diff`
 
 To Run test cases
 `go test -v`
