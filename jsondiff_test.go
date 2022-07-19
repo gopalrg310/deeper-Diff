@@ -85,6 +85,7 @@ func Test_Jsondiff(t *testing.T) {
 		the value of old will be
 		[map[color:true value:true] map[color:true value:true]]
 	*/
+	fmt.Println(ConvertJson(newval))
 	if got != want {
 		t.Errorf("got %v, wanted %v and found error %v", got, want, err)
 	}
@@ -97,6 +98,8 @@ func Test_Jsondiff(t *testing.T) {
 		Old - [map[color:cyan value:#0ff] map[color:magenta value:#f0f]]
 		New - [map[color:violet value:#7f0] map[color:Indigo value:#4b0]]
 	*/
+	fmt.Println(ConvertJson(newval))
+	fmt.Println(ConvertJson(old))
 	if got != want {
 		t.Errorf("got %v, wanted %v and found error %v", got, want, err)
 	}

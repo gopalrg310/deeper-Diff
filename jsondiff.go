@@ -189,27 +189,31 @@ func main() {
 	deeperdata := new(DeeperDiff)
 	deeperdata.exact = value1
 	deeperdata.comparative = value2
-	diff, old, new1, err := deeperdata.GetjsonDiffInBool()
+	diff, old, new, err := deeperdata.GetjsonDiffInBool()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 	if diff {
-		fmt.Println(old)
-		//[map[id:true type:true] map[id:true type:true]]
+		fmt.Println(ConvertJson(old))
+		//[{"id":true,"type":true},{"id":true,"type":true}]
 	}
-	diff, old, new1, err = deeperdata.GetjsonDiffInValue()
+	diff, old, new, err = deeperdata.GetjsonDiffInValue()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 	if diff {
-		fmt.Println(old)
-		fmt.Println(new1)
+		fmt.Println(ConvertJson(old))
+		fmt.Println(ConvertJson(new))
 		/*
-			[map[id:2489651046 type:CreatedEvent] map[id:2489651052 type:PushedEvent]]
-			[map[id:2489651045 type:CreateEvent] map[id:2489651051 type:PushEvent]]
+			[{"id":"2489651046","type":"CreatedEvent"},{"id":"2489651052","type":"PushedEvent"}]
+			[{"id":"2489651045","type":"CreateEvent"},{"id":"2489651051","type":"PushEvent"}]
 		*/
 
 	}
+}
+func ConvertJson(data interface{}) string {
+	jsondata, _ := json.Marshal(&data)
+	return string(jsondata)
 }
