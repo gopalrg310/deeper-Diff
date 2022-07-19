@@ -1,18 +1,24 @@
 package main
 
 import (
-	"reflect"
-	"io/ioutil"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"reflect"
 )
+
+type DeeperDiff struct {
+	exact       interface{}
+	comparative interface{}
+}
+
 // This fucntion will be used to find the deeper diff which is similar like http://www.jsondiff.com/
 
 /*input
 types -  Whether it needs to be bool or string of exact difference
 Exact - compare content of orginal
 comparitive - compare content of comparitive
-Changes - Use this as initial false that used internally 
+Changes - Use this as initial false that used internally
 */
 func GetDiffJSONValue(types string, Exact interface{}, comparitive interface{}, Changes bool) (bool, interface{}, interface{}, error) {
 	var data1, data2 interface{}
@@ -141,8 +147,8 @@ func GetDiffJSONValue(types string, Exact interface{}, comparitive interface{}, 
 		}
 	}
 }
-func GetDiffJSON(types string, Exact interface{}, comparitive interface{}) (bool, interface{}, interface{}, error) {
-	return GetDiffJSONValue(types, Exact, comparitive, false)
+func (diff *DeeperDiff) GetDiffJSON(types string) (bool, interface{}, interface{}, error) {
+	return GetDiffJSONValue(types, diff.exact, diff.comparative, false)
 }
 
 func GetDiffOutput(types string, old, new interface{}) (interface{}, interface{}) {
@@ -153,52 +159,57 @@ func GetDiffOutput(types string, old, new interface{}) (interface{}, interface{}
 		return new, old
 	}
 }
+
 //Function will prove the key whch got modified as tru or false
-func GetjsonDiffInBool(Exact, comparative interface{}) (bool, interface{}, interface{}, error) {
-	return GetDiffJSON("bool", Exact, comparative)
-}
-//Function will exactly show that what value got changed
-func GetjsonDiffInValue(Exact, comparative interface{}) (bool, interface{}, interface{}, error) {
-	return GetDiffJSON("value", Exact, comparative)
+func (diff *DeeperDiff) GetjsonDiffInBool() (bool, interface{}, interface{}, error) {
+	return diff.GetDiffJSON("bool")
 }
 
-func main(){
-	filename1:="json1.json"
-	filename2:="json2.json"
-	file1,err:=ioutil.ReadFile(filename1)
-	if err!=nil{
+//Function will exactly show that what value got changed
+func (diff *DeeperDiff) GetjsonDiffInValue() (bool, interface{}, interface{}, error) {
+	return diff.GetDiffJSON("value")
+}
+
+func main() {
+	filename1 := "json1.json"
+	filename2 := "json2.json"
+	file1, err := ioutil.ReadFile(filename1)
+	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
-	file2,err:=ioutil.ReadFile(filename2)
-	if err!=nil{
+	file2, err := ioutil.ReadFile(filename2)
+	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
-	value10,value20:= make([]interface{},0),make([]interface{},0)
-	json.Unmarshal(file1,&value10)
-	json.Unmarshal(file2,&value20)
-	diff,old,new1,err:=GetjsonDiffInBool(value10,value20)
-	if err!=nil{
+	value1, value2 := make([]interface{}, 0), make([]interface{}, 0)
+	json.Unmarshal(file1, &value1)
+	json.Unmarshal(file2, &value2)
+	deeperdata := new(DeeperDiff)
+	deeperdata.exact = value1
+	deeperdata.comparative = value2
+	diff, old, new1, err := deeperdata.GetjsonDiffInBool()
+	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
-	if diff{
+	if diff {
 		fmt.Println(old)
-        //[map[id:true type:true] map[id:true type:true]]		
+		//[map[id:true type:true] map[id:true type:true]]
 	}
-	diff,old,new1,err=GetjsonDiffInValue(value10,value20)
-	if err!=nil{
+	diff, old, new1, err = deeperdata.GetjsonDiffInValue()
+	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
-	if diff{
+	if diff {
 		fmt.Println(old)
 		fmt.Println(new1)
 		/*
 			[map[id:2489651046 type:CreatedEvent] map[id:2489651052 type:PushedEvent]]
 			[map[id:2489651045 type:CreateEvent] map[id:2489651051 type:PushEvent]]
 		*/
-		
+
 	}
 }
