@@ -21,3 +21,4 @@ And do
 `go build`
 
 `./json-diff`
+to build Docker image `docker build -t json-diff`
