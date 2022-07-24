@@ -8,4 +8,6 @@ RUN apk add --update git openssh-client && rm -rf /var/cache/apk/* && \
     git clone https://github.com/gopalrg310/json-diff.git /json-diff
 WORKDIR /json-diff
 COPY . .
-RUN go build -o json-diff jsondiff.go
+RUN go mod init json-diff && \
+    go mod tidy && \
+    go build -o json-diff jsondiff.go
