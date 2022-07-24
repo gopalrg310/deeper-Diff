@@ -2,10 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"reflect"
-	"flag"
 )
 
 type DeeperDiff struct {
@@ -175,7 +175,7 @@ func main() {
 	filename1 := flag.String("filename1", "json1.json", "Enter source file name to do comaparison? ")
 
 	filename2 := flag.String("filename2", "json2.json", "Enter comparitive file name to do comaparison? ")
-	
+
 	flag.Parse()
 	file1, err := ioutil.ReadFile(*filename1)
 	if err != nil {

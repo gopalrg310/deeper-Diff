@@ -20,6 +20,8 @@ To Run test cases
 And do 
 `go build`
 
-`./json-diff`
+filename1 and filename2 is to take the input file from the user to do comparison
+
+`./json-diff -filename1=json1.json -filename2=json2.json`
 
 To build Docker image `docker build -t json-diff`
