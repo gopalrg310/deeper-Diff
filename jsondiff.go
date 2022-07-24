@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"reflect"
+	"flag"
 )
 
 type DeeperDiff struct {
@@ -171,14 +172,17 @@ func (diff *DeeperDiff) GetjsonDiffInValue() (bool, interface{}, interface{}, er
 }
 
 func main() {
-	filename1 := "json1.json"
-	filename2 := "json2.json"
-	file1, err := ioutil.ReadFile(filename1)
+	filename1 := flag.String("filename1", "json1.json", "Enter source file name to do comaparison? ")
+
+	filename2 := flag.String("filename2", "json2.json", "Enter comparitive file name to do comaparison? ")
+	
+	flag.Parse()
+	file1, err := ioutil.ReadFile(*filename1)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
-	file2, err := ioutil.ReadFile(filename2)
+	file2, err := ioutil.ReadFile(*filename2)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
